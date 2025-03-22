@@ -8,12 +8,12 @@ from datetime import datetime
 # Adiciona o diretório raiz ao sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from src.utils.save_dataframe_csv import save_dataframe_to_csv
+from utils.save01_response_json import save_response_to_json
+from utils.save02_dataframe_csv import save_dataframe_to_csv
 
 # Inputs
 save_path = r'data\outputs'
-layer = 'bronze'
-title = "ibge_pib_municipios"
+title = "ibge02_pib_municipios"
 datetime_now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 url = "https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2021/variaveis/37?localidades=N6[all]"
 
@@ -46,10 +46,10 @@ if response.status_code == 200:
                         'valor': valor
                     })
     
-    # Criando o DataFrame
     df = pd.DataFrame(results)
+    print(df.head())
 
-    # Salvar em CSV
-    save_dataframe_to_csv(df, save_path, layer, title, datetime_now)
+    save_response_to_json(data, save_path, "bronze", title, datetime_now)
+    save_dataframe_to_csv(df, save_path, "silver", title, datetime_now)
 else:
     print(f"Erro na requisição: {response.status_code}")

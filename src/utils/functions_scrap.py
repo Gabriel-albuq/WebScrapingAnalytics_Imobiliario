@@ -114,8 +114,9 @@ def get_html(browser):
     """
     page_source = browser.page_source
     page_source_soup = BeautifulSoup(page_source, 'html.parser')
+    page_source_prettify = page_source_soup.prettify()
 
-    return page_source, page_source_soup
+    return page_source, page_source_soup, page_source_prettify 
 
 def get_cards(city, page_source_soup, datetime_now):
     """
