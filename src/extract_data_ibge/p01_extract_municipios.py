@@ -19,13 +19,9 @@ url = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
 
 response = requests.get(url)
 
-# Verificando se a requisição foi bem-sucedida
 if response.status_code == 200:
     data = response.json()
-    
-    # Extração e transformação dos dados para o DataFrame
     results = []
-    
     for municipio in data:
         results.append({
             "id": municipio["id"],
@@ -47,7 +43,6 @@ if response.status_code == 200:
 
     save_response_to_json(data, save_path, "bronze", title, datetime_now)
     save_dataframe_to_csv(df, save_path, "silver", title, datetime_now)
-    print(f"Arquivos salvos em: {save_path}")
 
 else:
     print(f"Erro ao acessar API: {response.status_code}")

@@ -13,9 +13,9 @@ from utils.save02_dataframe_csv import save_dataframe_to_csv
 
 # Inputs
 save_path = r'data\outputs'
-title = "ibge02_pib"
+title = "ibge03_populacao_territorio"
 datetime_now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-url = "https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2021/variaveis/37?localidades=N6[all]"
+url = "https://servicodados.ibge.gov.br/api/v3/agregados/4714/periodos/2022/variaveis/93|6318|614?localidades=N6[all]"
 
 response = requests.get(url)
 
@@ -23,18 +23,18 @@ if response.status_code == 200:
     data = response.json()
     results = []
     for result in data:
-        for item in result['resultados']:
-            for serie in item['series']:
-                for year, value in serie['serie'].items():
-                    localidade_nome = serie['localidade']['nome']
-                    localidade_id = serie['localidade']['id']
-                    nivel_id = serie['localidade']['nivel']['id']
-                    nivel_nome = serie['localidade']['nivel']['nome']
-                    variavel = result['variavel']
-                    unidade = result['unidade']
-                    nome_serie = year
-                    valor_serie = value
-                    results.append({
+            for item in result['resultados']:
+                for serie in item['series']:
+                    for year, value in serie['serie'].items():
+                        localidade_nome = serie['localidade']['nome']
+                        localidade_id = serie['localidade']['id']
+                        nivel_id = serie['localidade']['nivel']['id']
+                        nivel_nome = serie['localidade']['nivel']['nome']
+                        variavel = result['variavel']
+                        unidade = result['unidade']
+                        nome_serie = year
+                        valor_serie = value
+                        results.append({
                             'id_pesquisa': result['id'],
                             'nome_pesquisa': variavel,
                             'unidade': unidade,
@@ -44,8 +44,8 @@ if response.status_code == 200:
                             'nome_localidade': localidade_nome,
                             'serie': nome_serie,
                             'valor_serie': valor_serie
-                    })
-    
+                        })
+
     df = pd.DataFrame(results)
     print(df.head())
 

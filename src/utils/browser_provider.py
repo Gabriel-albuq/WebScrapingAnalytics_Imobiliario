@@ -16,7 +16,6 @@ class BrowserProvider:
     def get_browser(self, args: list[str] = None, headless: bool = False, driver_path: str = None, download_dir: str = None):
         new_args = args if args else self.default_args()
 
-        # Configura as opções do navegador
         self.set_options(download_dir, new_args)
         self.is_headless(headless)
 
