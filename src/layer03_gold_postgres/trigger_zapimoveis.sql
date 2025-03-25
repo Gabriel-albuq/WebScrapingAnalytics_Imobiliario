@@ -58,7 +58,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_gold_zapimoveis__trigger
+CREATE TRIGGER update_gold_zapimoveis_trigger
 AFTER INSERT OR UPDATE ON silver.zapimoveis
 FOR EACH ROW
 EXECUTE FUNCTION update_gold_zapimoveis();
