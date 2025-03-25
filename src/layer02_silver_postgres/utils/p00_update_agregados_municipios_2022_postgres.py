@@ -4,6 +4,7 @@ import os
 from sqlalchemy import MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from unidecode import unidecode
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(root_dir)
@@ -34,17 +35,17 @@ def update_ibge00_agregados_municipios_2022(csv_path, layer):
                             .where(IbgeAgregadosMunicipios2022.c.agregado_id == row['Agregado_ID'])
                             .values(
                                 categoria_id=row['Categoria_ID'],
-                                categoria_nome=row['Categoria_Nome'],
-                                agregado_nome=row['Agregado_Nome']
+                                categoria_nome=unidecode(str(row['Categoria_Nome'])),
+                                agregado_nome=unidecode(str(row['Agregado_Nome']))
                             )
                         )
                     else:
                         session.execute(
                             IbgeAgregadosMunicipios2022.insert().values(
                                 categoria_id=row['Categoria_ID'],
-                                categoria_nome=row['Categoria_Nome'],
+                                categoria_nome=unidecode(str(row['Categoria_Nome'])),
                                 agregado_id=row['Agregado_ID'],
-                                agregado_nome=row['Agregado_Nome']
+                                agregado_nome=unidecode(str(row['Agregado_Nome']))
                             )
                         )
                 session.commit()

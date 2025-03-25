@@ -4,6 +4,7 @@ import pandas as pd
 import os
 import sys
 from datetime import datetime
+from unidecode import unidecode
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
@@ -29,7 +30,6 @@ if response.status_code == 200:
             id_agregado = agregado['id']
             nome_agregado = agregado['nome']
 
-            # Adicionando cada agregado na lista
             results.append({
                 'Categoria_ID': id_categoria,
                 'Categoria_Nome': nome_categoria,
@@ -38,6 +38,8 @@ if response.status_code == 200:
             })
 
     df = pd.DataFrame(results)
+    df['Categoria_Nome'] = df['Categoria_Nome'].apply(lambda x: unidecode(str(x)))
+    df['Agregado_Nome'] = df['Agregado_Nome'].apply(lambda x: unidecode(str(x)))
     print(df.head())
 
     save_response_to_json(data, save_path, "bronze", title, datetime_now)

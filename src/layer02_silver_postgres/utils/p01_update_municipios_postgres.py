@@ -4,6 +4,7 @@ import os
 from sqlalchemy import MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from unidecode import unidecode
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(root_dir)
@@ -33,34 +34,34 @@ def update_ibge01_municipios(csv_path, layer):
                             IbgeMunicipios.update()
                             .where(IbgeMunicipios.c.id == row['id'])
                             .values(
-                                nome=row['nome'],
+                                nome=unidecode(str(row['nome'])),
                                 microrregiao_id=row['microrregiao_id'],
-                                microrregiao_nome=row['microrregiao_nome'],
+                                microrregiao_nome=unidecode(str(row['microrregiao_nome'])),
                                 mesorregiao_id=row['mesorregiao_id'],
-                                mesorregiao_nome=row['mesorregiao_nome'],
+                                mesorregiao_nome=unidecode(str(row['mesorregiao_nome'])),
                                 uf_id=row['uf_id'],
-                                uf_sigla=row['uf_sigla'],
-                                uf_nome=row['uf_nome'],
+                                uf_sigla=unidecode(str(row['uf_sigla'])),
+                                uf_nome=unidecode(str(row['uf_nome'])),
                                 regiao_id=row['regiao_id'],
-                                regiao_sigla=row['regiao_sigla'],
-                                regiao_nome=row['regiao_nome']
+                                regiao_sigla=unidecode(str(row['regiao_sigla'])),
+                                regiao_nome=unidecode(str(row['regiao_nome']))
                             )
                         )
                     else:
                         session.execute(
                             IbgeMunicipios.insert().values(
                                 id=row['id'],
-                                nome=row['nome'],
+                                nome=unidecode(str(row['nome'])),
                                 microrregiao_id=row['microrregiao_id'],
-                                microrregiao_nome=row['microrregiao_nome'],
+                                microrregiao_nome=unidecode(str(row['microrregiao_nome'])),
                                 mesorregiao_id=row['mesorregiao_id'],
-                                mesorregiao_nome=row['mesorregiao_nome'],
+                                mesorregiao_nome=unidecode(str(row['mesorregiao_nome'])),
                                 uf_id=row['uf_id'],
-                                uf_sigla=row['uf_sigla'],
-                                uf_nome=row['uf_nome'],
+                                uf_sigla=unidecode(str(row['uf_sigla'])),
+                                uf_nome=unidecode(str(row['uf_nome'])),
                                 regiao_id=row['regiao_id'],
-                                regiao_sigla=row['regiao_sigla'],
-                                regiao_nome=row['regiao_nome']
+                                regiao_sigla=unidecode(str(row['regiao_sigla'])),
+                                regiao_nome=unidecode(str(row['regiao_nome']))
                             )
                         )
                 session.commit()

@@ -1,4 +1,3 @@
--- Funcao para inserir ou substituir
 CREATE OR REPLACE FUNCTION update_gold_zapimoveis() 
 RETURNS TRIGGER AS $$
 BEGIN
@@ -64,7 +63,7 @@ AFTER INSERT OR UPDATE ON silver.zapimoveis
 FOR EACH ROW
 EXECUTE FUNCTION update_gold_zapimoveis();
 
--- Funcao para deletar
+
 CREATE OR REPLACE FUNCTION delete_gold_zapimoveis() 
 RETURNS TRIGGER AS $$
 BEGIN

@@ -1,15 +1,8 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.action_chains import ActionChains
-from bs4 import BeautifulSoup
-import time
 import pandas as pd
 import sys
 import os
-from selenium.common.exceptions import TimeoutException
 from datetime import datetime
+from unidecode import unidecode
 
 # Adiciona o diretório raiz ao sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
@@ -70,6 +63,10 @@ for city in list_cities:
         "datetime_now": datetime_now
 }
 
+df['nome_pesquisa'] = df['nome_pesquisa'].apply(lambda x: unidecode(str(x)))
+df['unidade'] = df['unidade'].apply(lambda x: unidecode(str(x)))
+df['nome_nivel'] = df['nome_nivel'].apply(lambda x: unidecode(str(x)))
+df['nome_localidade'] = df['nome_localidade'].apply(lambda x: unidecode(str(x)))
 print(df.head())
 
 save_response_to_json(dict_cities_html, save_path, "bronze", title, datetime_now)

@@ -6,16 +6,14 @@ silver.ibge03_populacao_territorio,
 silver.ibge04_empregos, 
 silver.ibge05_ensino_superior;
 
--- Criando a tabela ibge00_agregados_municipios_2022 no schema silver
-CREATE TABLE silver.ibge00_agregados_municipios_2022 (
+CREATE TABLE IF NOT EXISTS silver.ibge00_agregados_municipios_2022 (
     categoria_id VARCHAR(10),
     categoria_nome TEXT,
     agregado_id INTEGER PRIMARY KEY,
     agregado_nome TEXT
 );
 
--- Criando a tabela ibge01_municipios no schema silver
-CREATE TABLE silver.ibge01_municipios (
+CREATE TABLE IF NOT EXISTS silver.ibge01_municipios (
     id INTEGER PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     microrregiao_id VARCHAR(50),
@@ -30,8 +28,7 @@ CREATE TABLE silver.ibge01_municipios (
     regiao_nome VARCHAR(50)
 );
 
--- Criando a tabela ibge02_pib no schema silver
-CREATE TABLE silver.ibge02_pib (
+CREATE TABLE IF NOT EXISTS silver.ibge02_pib (
     id_pesquisa INTEGER,
     nome_pesquisa VARCHAR(100) NOT NULL,
     unidade VARCHAR(50),
@@ -45,8 +42,7 @@ CREATE TABLE silver.ibge02_pib (
     FOREIGN KEY (id_localidade) REFERENCES silver.ibge01_municipios(id) ON DELETE CASCADE
 );
 
--- Criando a tabela ibge03_populacao_territorio no schema silver
-CREATE TABLE silver.ibge03_populacao_territorio (
+CREATE TABLE IF NOT EXISTS silver.ibge03_populacao_territorio (
     id_pesquisa INTEGER,
     nome_pesquisa VARCHAR(100) NOT NULL,
     unidade VARCHAR(50),
@@ -60,8 +56,7 @@ CREATE TABLE silver.ibge03_populacao_territorio (
     FOREIGN KEY (id_localidade) REFERENCES silver.ibge01_municipios(id) ON DELETE CASCADE
 );
 
--- Criando a tabela ibge04_empregos no schema silver
-CREATE TABLE silver.ibge04_empregos (
+CREATE TABLE IF NOT EXISTS silver.ibge04_empregos (
     id_pesquisa INTEGER,
     nome_pesquisa VARCHAR(100) NOT NULL,
     unidade VARCHAR(50),
@@ -75,8 +70,7 @@ CREATE TABLE silver.ibge04_empregos (
     FOREIGN KEY (id_localidade) REFERENCES silver.ibge01_municipios(id) ON DELETE CASCADE
 );
 
--- Criando a tabela ibge05_ensino_superior no schema silver
-CREATE TABLE silver.ibge05_ensino_superior (
+CREATE TABLE IF NOT EXISTS silver.ibge05_ensino_superior (
     id_pesquisa INTEGER,
     nome_pesquisa VARCHAR(100) NOT NULL,
     unidade VARCHAR(50),
@@ -88,4 +82,18 @@ CREATE TABLE silver.ibge05_ensino_superior (
     valor_serie FLOAT,
     PRIMARY KEY (id_pesquisa, id_localidade, serie),
     FOREIGN KEY (id_localidade) REFERENCES silver.ibge01_municipios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS silver.zapimoveis (
+    property_id BIGINT PRIMARY KEY,
+    state_city VARCHAR(100) NOT NULL,
+    location VARCHAR(200),
+    street VARCHAR(200),
+    type_realese VARCHAR(50),
+    area VARCHAR(50),
+    rooms VARCHAR(50),
+    bathrooms VARCHAR(50),
+    price VARCHAR(50),
+    link VARCHAR(200),
+    update_at VARCHAR(50)
 );

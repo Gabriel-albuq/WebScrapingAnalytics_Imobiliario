@@ -4,8 +4,8 @@ import pandas as pd
 import os
 import sys
 from datetime import datetime
+from unidecode import unidecode
 
-# Adiciona o diretório raiz ao sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from utils.save01_response_json import save_response_to_json
@@ -39,6 +39,14 @@ if response.status_code == 200:
         })
 
     df = pd.DataFrame(results)
+    df['nome'] = df['nome'].apply(lambda x: unidecode(str(x)))
+    df['microrregiao_nome'] = df['microrregiao_nome'].apply(lambda x: unidecode(str(x)))
+    df['mesorregiao_nome'] = df['mesorregiao_nome'].apply(lambda x: unidecode(str(x)))
+    df['uf_sigla'] = df['uf_sigla'].apply(lambda x: unidecode(str(x)))
+    df['uf_nome'] = df['uf_nome'].apply(lambda x: unidecode(str(x)))
+    df['regiao_sigla'] = df['regiao_sigla'].apply(lambda x: unidecode(str(x)))
+    df['regiao_nome'] = df['regiao_nome'].apply(lambda x: unidecode(str(x)))
+
     print(df.head())
 
     save_response_to_json(data, save_path, "bronze", title, datetime_now)

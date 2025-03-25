@@ -65,7 +65,8 @@ def update_zapimoveis(csv_path, layer):
 
         except SQLAlchemyError as e:
             print(f"Erro ao inserir ou atualizar dados: {e}")
-
+            session.rollback()
+            
         finally:
             session.close()
 

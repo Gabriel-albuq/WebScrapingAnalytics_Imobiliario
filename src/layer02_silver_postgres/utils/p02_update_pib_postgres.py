@@ -4,6 +4,7 @@ import os
 from sqlalchemy import MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from unidecode import unidecode
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(root_dir)
@@ -38,11 +39,11 @@ def update_ibge02_pib(csv_path, layer):
                             .where(IbgePib.c.id_nivel == row['id_nivel'])
                             .where(IbgePib.c.id_pesquisa == row['id_pesquisa'])
                             .values(
-                                nome_pesquisa=row['nome_pesquisa'],
-                                unidade=row['unidade'],
+                                nome_pesquisa=unidecode(str(row['nome_pesquisa'])),
+                                unidade=unidecode(str(row['unidade'])),
                                 id_nivel=row['id_nivel'],
-                                nome_nivel=row['nome_nivel'],
-                                nome_localidade=row['nome_localidade'],
+                                nome_nivel=unidecode(str(row['nome_nivel'])),
+                                nome_localidade=unidecode(str(row['nome_localidade'])),
                                 valor_serie=row['valor_serie']
                             )
                         )
@@ -50,12 +51,12 @@ def update_ibge02_pib(csv_path, layer):
                         session.execute(
                             IbgePib.insert().values(
                                 id_pesquisa=row['id_pesquisa'],
-                                nome_pesquisa=row['nome_pesquisa'],
-                                unidade=row['unidade'],
+                                nome_pesquisa=unidecode(str(row['nome_pesquisa'])),
+                                unidade=unidecode(str(row['unidade'])),
                                 id_localidade=row['id_localidade'],
                                 id_nivel=row['id_nivel'],
-                                nome_nivel=row['nome_nivel'],
-                                nome_localidade=row['nome_localidade'],
+                                nome_nivel=unidecode(str(row['nome_nivel'])),
+                                nome_localidade=unidecode(str(row['nome_localidade'])),
                                 serie=row['serie'],
                                 valor_serie=row['valor_serie']
                             )
@@ -70,6 +71,6 @@ def update_ibge02_pib(csv_path, layer):
             session.close()
 
 if __name__ == "__main__":
-    csv_path = r'data\outputs\ibge02_pib\silver\2025-03-23_20-21-30\ibge02_pib-2025-03-23_20-21-30.csv'
+    csv_path = r'data\outputs\ibge02_pib\silver\2025-03-23_21-52-42\ibge02_pib-2025-03-23_21-52-42.csv'
     layer = "silver"
     update_ibge02_pib(csv_path, layer)
